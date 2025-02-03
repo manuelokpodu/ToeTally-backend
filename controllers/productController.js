@@ -149,31 +149,27 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-export const searchProducts = async (req, res, next) => {
-  const { merchantCode } = req.params;
-  const query = req.query.q || "undefined";
+// search for a product
+exports.searchProducts = async (req, res) => {
   try {
-    if (!merchantCode) {
-      return next(createHttpError(400, "Merchant code is missing"));
-    }
-    const merchant = await Merchant.findOne({ merchantCode: merchantCode });
-    if (!merchant) {
-      return next(createHttpError(404, "Merchant not found"));
-    }
-    const searchQuery =
-      query.trim() || query.split(",").map((tag) => tag.trim());
-    const searchResult = await Product.find({
+    // Get the search term from the query parameters
+    const searchTerm = req.query.q || ""; // default to empty string if no query provided
+
+    // Perform a case-insensitive search on multiple fields
+    const products = await Product.find({
       $or: [
-        { name: { $regex: searchQuery, $options: "i" } },
-        { description: { $regex: searchQuery, $options: "i" } },
-        { brand: { $regex: searchQuery, $options: "i" } },
+        { name: { $regex: searchTerm, $options: "i" } }, // Search by name (case-insensitive)
+        { description: { $regex: searchTerm, $options: "i" } }, // Search by description (case-insensitive)
+        { category: { $regex: searchTerm, $options: "i" } }, // Optional: search by category (case-insensitive)
       ],
     });
-    if (!searchResult) {
-      return next(createHttpError(400, "Search did not return a match"));
-    }
-    res.status(200).json(searchResult);
+
+    // Return the search results
+    res.status(200).json(products);
   } catch (error) {
-    next(error);
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while searching for products." });
   }
 };
