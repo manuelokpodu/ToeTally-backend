@@ -12,8 +12,10 @@ connectDB();
 app.use(express.json());
 
 const auth = require("./routes/auth");
+const rating = require("./routes/rating");
 
 app.use("/api/v1/auth", auth);
+app.use("/api/v1/rating", rating);
 
 const port = 5000;
 
