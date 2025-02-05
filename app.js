@@ -9,14 +9,8 @@ const app = express();
 
 dotenv.config({ path: ".env" });
 
-app.use("/api/products", productRoutes);
-
-connectDB();
-
-app.use(express.json());
-
 const allowedOrigins = [
-  "https://toe-tally-frontend-dm3v.vercel.app/", // Replace with your actual deployed frontend URL
+  "https://toe-tally-frontend-dm3v.vercel.app", // Replace with your actual deployed frontend URL
   "http://localhost:5173", // Keep this for local development
 ];
 
@@ -28,11 +22,17 @@ app.use(
   }),
 );
 
+app.use(express.json());
+
+app.use("/api/products", productRoutes);
+
 const auth = require("./routes/auth");
 const rating = require("./routes/rating");
 
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/rating", rating);
+
+connectDB();
 
 const port = 5000;
 
