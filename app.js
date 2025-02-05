@@ -3,6 +3,7 @@ const connectDB = require("./config/connectDb");
 const dotenv = require("dotenv");
 const colors = require("colors");
 const productRoutes = require("./routes/productRoutes");
+const cors = require("cors");
 
 const app = express();
 
@@ -13,6 +14,19 @@ app.use("/api/products", productRoutes);
 connectDB();
 
 app.use(express.json());
+
+const allowedOrigins = [
+  "https://toe-tally-frontend-dm3v.vercel.app/", // Replace with your actual deployed frontend URL
+  "http://localhost:5173", // Keep this for local development
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization",
+  }),
+);
 
 const auth = require("./routes/auth");
 const rating = require("./routes/rating");
