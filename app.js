@@ -15,16 +15,14 @@ connectDB();
 
 app.use(express.json());
 
-
 const allowedOrigins = [
   "https://toe-tally-frontend-dm3v.vercel.app/", // Replace with your actual deployed frontend URL
   "http://localhost:5173", // Keep this for local development
 ];
 
-
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow frontend to access backend
+    origin: allowedOrigins,
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
   }),
