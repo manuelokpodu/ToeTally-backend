@@ -52,20 +52,20 @@ const register = async (req, res) => {
 // Login function
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email } = req.body;
 
-  // Validate email and password
+  // Validate email
   if (!email) {
     return res
       .status(400)
       .json({ success: false, message: "Please input an email" });
   }
 
-  if (!password) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Please input your password " });
-  }
+  // if (!password) {
+  //   return res
+  //     .status(400)
+  //     .json({ success: false, message: "Please input your password " });
+  // }
 
   //Check if the user is registered in the database
   const user = await User.findOne({ email });
@@ -75,7 +75,7 @@ const login = async (req, res) => {
       .json({ success: false, message: "User does not exist" });
   }
 
-  //check if password matches
+  // check if password matches
   const isMatch = await user.matchPassword(password);
   if (!isMatch) {
     return res
