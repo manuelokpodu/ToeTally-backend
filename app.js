@@ -27,6 +27,7 @@ app.use(express.json());
 app.use("/api/products", productRoutes);
 
 const auth = require("./routes/auth");
+// const cloudinary = require("./utils/cloudinary");
 const rating = require("./routes/rating");
 
 app.use("/api/v1/auth", auth);
