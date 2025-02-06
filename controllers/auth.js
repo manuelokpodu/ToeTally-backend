@@ -54,7 +54,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  // Validate email and password
+  // Validate email
   if (!email) {
     return res
       .status(400)
@@ -75,7 +75,7 @@ const login = async (req, res) => {
       .json({ success: false, message: "User does not exist" });
   }
 
-  //check if password matches
+  // check if password matches
   const isMatch = await user.matchPassword(password);
   if (!isMatch) {
     return res
