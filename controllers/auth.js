@@ -76,12 +76,12 @@ const login = async (req, res) => {
   }
 
   // check if password matches
-  // const isMatch = await user.matchPassword(password);
-  // if (!isMatch) {
-  //   return res
-  //     .status(422)
-  //     .json({ success: false, message: "Invalid Password" });
-  // }
+  const isMatch = await user.matchPassword(password);
+  if (!isMatch) {
+    return res
+      .status(422)
+      .json({ success: false, message: "Invalid Password" });
+  }
 
   const token = user.getSignedJwtToken();
   return res

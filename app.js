@@ -10,7 +10,7 @@ const app = express();
 dotenv.config({ path: ".env" });
 
 const allowedOrigins = [
-  "https://toe-tally-frontend-dm3v.vercel.app", // Replace with your actual deployed frontend URL
+  "https://toe-tally-frontend-fejr.vercel.app", // Replace with your actual deployed frontend URL
   "http://localhost:5173", // Keep this for local development
 ];
 
@@ -19,7 +19,7 @@ app.use(
     origin: allowedOrigins,
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
-  }),
+  })
 );
 
 app.use(express.json());
@@ -39,7 +39,7 @@ const port = 5000;
 
 const server = app.listen(
   port,
-  console.log(`Server is running on ${port}`.red.bold),
+  console.log(`Server is running on ${port}`.red.bold)
 );
 
 // iyiolaabby
