@@ -14,10 +14,24 @@ const allowedOrigins = [
   "http://localhost:5173", // Keep this for local development
 ];
 
+// app.use(
+//   cors({
+//     origin: allowedOrigins,
+//     methods: "GET,POST,PUT,DELETE",
+//     allowedHeaders: "Content-Type,Authorization",
+//   }),
+// );
+
 app.use(
   cors({
-    origin: allowedOrigins,
-    methods: "GET,POST,PUT,DELETE",
+    origin: function (origin, callback) {
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: "Content-Type,Authorization",
   })
 );
